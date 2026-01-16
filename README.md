@@ -122,5 +122,84 @@ df.head(5)
 - The notebook runs `df.info()`
 - Result: All 27 columns have 5000 non-null values → **no missing data**
 - No imputation, dropping, or filling of missing values is performed (none needed)
+  
+
+###  5.0 Descriptive Analytics - Pre-Modeling Analysis
+
+Quick summary of delay patterns across 5,000 consignments before modeling.
+
+**5.1. Overall Delay Landscape**
+- Total: 5,000 consignments
+- Delayed: 2,419 (48.38%)
+- On time: 2,581 (51.62%)
+- Avg total processing: 98.6 hours
+- Avg delay (when delayed): 17.65 hours
+- Long tail: 5% exceed 155 hours, 1% exceed 173 hours
+
+
+**5.2. Overall Delay Landscape**
+- Total consignments: **5,000**
+- Delayed: **2,419** (48.38%)
+- On time: **2,581** (51.62%)
+- Average total processing time: **98.6 hours** (median 96.8h)
+- Long tail: 5% exceed **155h**, 1% exceed **173h**, max **201h**
+- Average delay (when delayed): **17.65 hours** (P75: 25.55h, max 77h)
+
+**5.3. Key Patterns by Origin, Destination, Ports & Time**
+- **Highest risk origins**: Rwanda (52%), Uganda (50%), Ethiopia (48%)
+- **Highest risk destinations**: Belgium & Germany (51%)
+- **Top ports**: Kigali (origin 52%), Felixstowe (destination 53%)
+- **Weekend creation penalty**: 69% delay rate (vs 40% weekdays)
+- **Night creation** (00:00–05:59): slightly higher risk (~50%)
+
+**5.4 Commodity-Level Insights**
+- **Highest delay** (mostly SEA): Tea (60%), Vegetables Mix (54%), Pineapples (52%)
+- **Lowest delay** (all AIR): Fresh Beans (41%), Mangoes (43%), Cut Flowers/Herbs (~44%)
+- SEA shipments consistently 2–3× more delayed than AIR
+
+
+### 5.6. Early Red-Flag Signals (Pre-Clearance Predictors)
+
+**5.6.1 Document Completeness Score**  
+- Very High (0.9–1.0): **38%** delay rate, 93.18h avg processing  
+- High (0.7–0.9): **63%** delay rate, 106.10h avg processing  
+→ Higher completeness → much lower risk (strong negative correlation)
+
+**5.6.2 Number of Document Amendments**  
+- 0 amendments: **37%** delay rate  
+- 1 amendment: **58%**  
+- 2 amendments: **78%**  
+- 3+ amendments: **93%** delay rate  
+→ Each amendment is a major red flag (positive correlation)
+
+**5.6.3 Congestion Index**  
+- Low (0–0.3): **26%** delay rate  
+- Medium (0.3–0.5): **46%**  
+- High (0.5–0.7): **65%**  
+- Very High (0.7–1.0): **78%** delay rate  
+→ Strongest single early predictor (positive correlation)
+
+**5.6.4 Weight & Value Quartiles**  
+- Heavier/higher-value shipments: slightly higher delay risk (49–51%)
+
+**5.6.5 Correlation Summary** (Early Flags vs Delay)  
+- doc_completeness_score: **−0.3361** (strong negative)  
+- doc_amendments: **+0.3012**  
+- congestion_index: **+0.3793** (highest among early flags)
+
+**5.6.6 Visual Highlights**
+- Pie chart: overall delay split (48.4% delayed)
+- Bar charts: delay rates by origin/destination, commodity, port, time bucket, day of week, document completeness, amendments, congestion, weight/value
+- Histograms & box plots: processing time & delay distributions
+- Scatter plots: customs vs dwell time (bottleneck detection), processing time vs delay rate by country
+- Trend line: document completeness vs delay (clear downward slope)
+
+**5.6.7 Final Key Takeaways for Modeling**
+- **Strongest early red flags**: high congestion, many document amendments, low document completeness  
+- **Highest risk profile**: Weekend-created SEA shipments of Tea/Vegetables/Pineapples from Rwanda to Belgium/Germany  
+- **Weekend penalty**: nearly doubles delay risk  
+- **AIR vs SEA**: AIR shipments are far more reliable  
+- Nearly half of consignments delayed — balanced and realistic classification problem
+
 
 
