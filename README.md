@@ -311,7 +311,7 @@ Logistic regression offers interpretability advantage, allowing direct insights 
 - The final Random Forest model was deployed as a web-based application for real-time shipping delay prediction.
 - Users input shipment details and receive immediate delay predictions using the same preprocessing pipeline applied during training, demonstrating a transition from model development to practical deployment.
 
-link: https://predictive-horticulture.streamlit.app/
+link:  https://hortpreddelay.streamlit.app/
 
 
 ## Tools & Technologies
